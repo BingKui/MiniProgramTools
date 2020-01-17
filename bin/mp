@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+// 引入工具
+const program = require('commander');
+const path = require('path');
+const pkg = require(path.resolve(__dirname, '../package.json'));
+const logger = require('../lib/logger');
+
+const cli = require('../lib/cli.js');
+const component = require('../lib/component');
+const page = require('../lib/page');
+const project = require('../lib/project');
+
+program.version(pkg.version, '-v, --version, -V')
+    .option('init', 'Create a new project (创建新项目)')
+    .option('init --wechat', 'Create a new wechat project (创建微信新项目)')
+    .option('init --alipay', 'Create a new alipay project (创建支付宝新项目)')
+    .option('component', 'Create a new component (创建新组件)')
+    .option('page', 'Create a new page (创建新页面)')
+    .option('build', 'Build a new project (打包一个新项目)');
+
+program.on('--help', function() {
+    logger.info('这个是打印的信息');
+});
+
+program.parse(process.argv);
+
+if (program.init) {
+    cli(process.argv);
+}
+if (program.component) {
+    component(process.argv);
+}
+if (program.page) {
+    page(process.argv);
+}
+if (program.build) {
+    project(process.argv);
+}
